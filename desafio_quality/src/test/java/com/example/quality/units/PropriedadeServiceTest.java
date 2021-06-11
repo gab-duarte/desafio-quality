@@ -44,4 +44,10 @@ public class PropriedadeServiceTest {
     void getMaiorComodo() throws PropriedadeNotFoundException {
         Assertions.assertEquals("Sala", this.propriedadeService.getMaiorComodo(propriedadeDTO.getNome()).getName());
     }
+
+    @Test
+    void totalM2PorComodo() throws PropriedadeNotFoundException {
+        final Double[] m2PorComodoArray = new Double[] {193.75, 152.25};
+        Assertions.assertArrayEquals(m2PorComodoArray, this.propriedadeService.getM2PorComodo(propriedadeDTO.getNome()).toArray());
+    }
 }

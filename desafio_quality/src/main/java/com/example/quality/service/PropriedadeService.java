@@ -52,9 +52,17 @@ public class PropriedadeService {
         return ComodoMapper.comodoToComodoDTO(propriedade.maiorComodo());
     }
 
-    public ResponseEntity<?> getM2PorComodo(String propriedadeNome) throws PropriedadeNotFoundException {
+    public List<Double> getM2PorComodo(String propriedadeNome) throws PropriedadeNotFoundException {
         Propriedade propriedade = verifyIfPropriedadeExists(propriedadeNome);
-        return new ResponseEntity<>(propriedade.metrosQuadradosDeCadaComodo(), HttpStatus.OK);
+        Map<String, Double> map = propriedade.metrosQuadradosDeCadaComodo();
+        List<Double> result = new ArrayList<>();
+
+        for(Map.Entry<String, Double> pair: map.entrySet()){
+            result.add(pair.getValue());
+        }
+
+        return result;
+
     }
 
     public void verifyIfBairroExists(String nomeBairro) throws BairroNotFoundException {

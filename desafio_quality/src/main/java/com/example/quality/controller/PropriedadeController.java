@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/propriedade")
@@ -42,7 +43,7 @@ public class PropriedadeController {
     }
 
     @GetMapping(path = "/{propriedadeNome}/m2PorComodo")
-    public ResponseEntity<?> m2PorComodo(@PathVariable String propriedadeNome) throws PropriedadeNotFoundException {
+    public List<Double> m2PorComodo(@PathVariable String propriedadeNome) throws PropriedadeNotFoundException {
         return propriedadeService.getM2PorComodo(propriedadeNome);
     }
 
