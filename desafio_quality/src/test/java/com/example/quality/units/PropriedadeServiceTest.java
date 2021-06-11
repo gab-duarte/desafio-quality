@@ -34,10 +34,22 @@ public class PropriedadeServiceTest {
     }
 
     @Test
+    void valorPropriedade() throws PropriedadeNotFoundException {
+        Assertions.assertEquals(346000.0, this.propriedadeService.getValorPropriedade(propriedadeDTO.getNome()).getBody());
+    }
+
+    @Test
+    void propriedadeExiste() throws PropriedadeNotFoundException {
+        Assertions.assertEquals("Mansão", this.propriedadeService.verifyIfPropriedadeExists(propriedadeDTO.getNome()).getNome());
+        Assertions.assertThrows(PropriedadeNotFoundException.class, ()-> this.propriedadeService.verifyIfPropriedadeExists("Mansão do Gabriel"));
+    }
+
+    @Test
     void bairroExiste() throws BairroNotFoundException {
         Assertions.assertThrows(BairroNotFoundException.class, ()-> this.propriedadeService.verifyIfBairroExists("Brasilia"));
         Assertions.assertThrows(BairroNotFoundException.class, ()-> this.propriedadeService.verifyIfBairroExists("Riooooooo"));
         Assertions.assertThrows(BairroNotFoundException.class, ()-> this.propriedadeService.verifyIfBairroExists("São Paulo"));
+        Assertions.assertEquals("Fonseca", this.propriedadeService.verifyIfBairroExists("Fonseca"));
     }
 
     @Test

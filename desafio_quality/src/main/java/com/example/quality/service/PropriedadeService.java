@@ -65,28 +65,22 @@ public class PropriedadeService {
 
     }
 
-    public void verifyIfBairroExists(String nomeBairro) throws BairroNotFoundException {
+    public String verifyIfBairroExists(String nomeBairro) throws BairroNotFoundException {
          String bairro = deAccent(nomeBairro);
-         boolean existe = false;
          for(Map.Entry<String, Double> pair: bairroValorPorMetroQuadradoMap.entrySet()){
              if(pair.getKey().equalsIgnoreCase(bairro)){
-                 existe = true;
-                 break;
+                 return pair.getKey();
              }
          }
-
-         if (!existe){
-             throw new BairroNotFoundException("O bairro de nome " + nomeBairro + " não existe na base de Bairros");
-         }
+         throw new BairroNotFoundException("O bairro de nome " + nomeBairro + " não existe na base de Bairros");
     }
 
-    private Propriedade verifyIfPropriedadeExists(String propriedadeNome) throws PropriedadeNotFoundException {
+    public Propriedade verifyIfPropriedadeExists(String propriedadeNome) throws PropriedadeNotFoundException {
         for(Propriedade p: propriedades){
             if(p.getNome().equalsIgnoreCase(propriedadeNome)){
                 return p;
             }
         }
-
         throw new PropriedadeNotFoundException("A propriedade de nome " + propriedadeNome + " não foi encontrada");
     }
 
