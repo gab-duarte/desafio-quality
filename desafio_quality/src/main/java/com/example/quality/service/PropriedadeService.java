@@ -7,8 +7,6 @@ import com.example.quality.entity.Propriedade;
 import com.example.quality.exception.BairroNotFoundException;
 import com.example.quality.exception.PropriedadeNotFoundException;
 import com.example.quality.mapper.ComodoMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
@@ -29,22 +27,22 @@ public class PropriedadeService {
         populaListaDePropriedades();
      }
 
-    public ResponseEntity<?> salvaPropriedade(PropriedadeDTO propriedadeDTO) throws BairroNotFoundException {
+    public void salvaPropriedade(PropriedadeDTO propriedadeDTO) throws BairroNotFoundException {
         verifyIfBairroExists(propriedadeDTO.getBairro());
-        Propriedade propriedade = new Propriedade(propriedadeDTO.getNome().toLowerCase(), propriedadeDTO.getBairro(), ComodoMapper.postsDTOtoComodosList(propriedadeDTO.getComodos()));
+        Propriedade propriedade = new Propriedade(propriedadeDTO.getNome(), propriedadeDTO.getBairro(), ComodoMapper.postsDTOtoComodosList(propriedadeDTO.getComodos()));
         propriedades.add(propriedade);
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> getTotalM2Propriedade(String propriedadeNome) throws PropriedadeNotFoundException {
+    public Double getTotalM2Propriedade(String propriedadeNome) throws PropriedadeNotFoundException {
         Propriedade propriedade = verifyIfPropriedadeExists(propriedadeNome);
-        return new ResponseEntity<>(propriedade.totalMetrosQuadradosDaPropriedade(), HttpStatus.OK);
+        return Math.round(propriedade.totalMetrosQuadradosDaPropriedade()*100.0)/100.0;
     }
 
-    public ResponseEntity<?> getValorPropriedade(String propriedadeNome) throws PropriedadeNotFoundException {
+    public Double getValorPropriedade(String propriedadeNome) throws PropriedadeNotFoundException {
         Propriedade propriedade = verifyIfPropriedadeExists(propriedadeNome);
-        Double valorM2 = bairroValorPorMetroQuadradoMap.get(propriedade.getBairro());
-        return new ResponseEntity<>((propriedade.totalMetrosQuadradosDaPropriedade()*valorM2), HttpStatus.OK);
+        String bairro = deAccent(propriedade.getBairro());
+        Double valorM2 = bairroValorPorMetroQuadradoMap.get(bairro);
+        return Math.round((propriedade.totalMetrosQuadradosDaPropriedade()*valorM2)*100.0)/100.0;
     }
 
     public ComodoDTO getMaiorComodo(String propriedadeNome) throws PropriedadeNotFoundException {
@@ -65,11 +63,11 @@ public class PropriedadeService {
 
     }
 
-    public String verifyIfBairroExists(String nomeBairro) throws BairroNotFoundException {
+    public boolean verifyIfBairroExists(String nomeBairro) throws BairroNotFoundException {
          String bairro = deAccent(nomeBairro);
          for(Map.Entry<String, Double> pair: bairroValorPorMetroQuadradoMap.entrySet()){
              if(pair.getKey().equalsIgnoreCase(bairro)){
-                 return pair.getKey();
+                 return true;
              }
          }
          throw new BairroNotFoundException("O bairro de nome " + nomeBairro + " não existe na base de Bairros");

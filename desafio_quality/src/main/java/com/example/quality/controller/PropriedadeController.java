@@ -2,9 +2,11 @@ package com.example.quality.controller;
 
 import com.example.quality.dto.ComodoDTO;
 import com.example.quality.dto.PropriedadeDTO;
+import com.example.quality.dto.ResponseDTO;
 import com.example.quality.exception.BairroNotFoundException;
 import com.example.quality.exception.PropriedadeNotFoundException;
 import com.example.quality.service.PropriedadeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,27 +26,35 @@ public class PropriedadeController {
 
     @PostMapping
     public ResponseEntity<?> salvaPropriedade(@Valid @RequestBody PropriedadeDTO propriedade) throws BairroNotFoundException {
-        return propriedadeService.salvaPropriedade(propriedade);
+        propriedadeService.salvaPropriedade(propriedade);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/{propriedadeNome}/totalm2")
-    public ResponseEntity<?> m2Propriedade(@PathVariable String propriedadeNome) throws PropriedadeNotFoundException {
-        return propriedadeService.getTotalM2Propriedade(propriedadeNome);
+    public ResponseEntity<ResponseDTO> m2Propriedade(@PathVariable String propriedadeNome) throws PropriedadeNotFoundException {
+        Double m2Propriedade = propriedadeService.getTotalM2Propriedade(propriedadeNome);
+        ResponseDTO responseDTO = new ResponseDTO(m2Propriedade, null, null);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{propriedadeNome}/valor")
-    public ResponseEntity<?> valorPropriedade(@PathVariable String propriedadeNome) throws PropriedadeNotFoundException {
-        return propriedadeService.getValorPropriedade(propriedadeNome);
+    public ResponseEntity<ResponseDTO> valorPropriedade(@PathVariable String propriedadeNome) throws PropriedadeNotFoundException {
+        Double valorPropriedade =  propriedadeService.getValorPropriedade(propriedadeNome);
+        ResponseDTO responseDTO = new ResponseDTO(null, valorPropriedade, null);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{propriedadeNome}/maiorComodo")
-    public ComodoDTO maiorComodo(@PathVariable String propriedadeNome) throws PropriedadeNotFoundException {
-        return propriedadeService.getMaiorComodo(propriedadeNome);
+    public ResponseEntity<ComodoDTO> maiorComodo(@PathVariable String propriedadeNome) throws PropriedadeNotFoundException {
+        ComodoDTO comodoDTO = propriedadeService.getMaiorComodo(propriedadeNome);
+        return new ResponseEntity<>(comodoDTO, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{propriedadeNome}/m2PorComodo")
-    public List<Double> m2PorComodo(@PathVariable String propriedadeNome) throws PropriedadeNotFoundException {
-        return propriedadeService.getM2PorComodo(propriedadeNome);
+    public ResponseEntity<ResponseDTO> m2PorComodo(@PathVariable String propriedadeNome) throws PropriedadeNotFoundException {
+        List<Double> m2PorComodo = propriedadeService.getM2PorComodo(propriedadeNome);
+        ResponseDTO responseDTO = new ResponseDTO(null, null, m2PorComodo);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
 }

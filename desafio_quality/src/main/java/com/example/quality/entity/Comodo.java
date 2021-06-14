@@ -13,7 +13,7 @@ public class Comodo implements Comparable<Comodo> {
     }
 
     public Double metrosQuadrados(){
-        return this.width * this.length;
+        return Math.round((this.width * this.length) * 100.0)/100.0;
     }
 
     public String getName() {
