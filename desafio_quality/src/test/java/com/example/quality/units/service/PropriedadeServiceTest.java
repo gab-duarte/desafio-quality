@@ -1,4 +1,4 @@
-package com.example.quality.units;
+package com.example.quality.units.service;
 
 import com.example.quality.dto.ComodoDTO;
 import com.example.quality.dto.M2PorComodoDTO;

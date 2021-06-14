@@ -1,13 +1,12 @@
 package com.example.quality.integration;
 
-import com.example.quality.controller.PropriedadeController;
 import com.example.quality.dto.ComodoDTO;
 import com.example.quality.dto.M2PorComodoDTO;
 import com.example.quality.service.PropriedadeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,10 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@WebMvcTest(PropriedadeController.class)
+@SpringBootTest
 public class PropriedadeControllerIT {
 
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
