@@ -39,17 +39,17 @@ public class PropriedadeServiceTest {
     }
 
     @Test
-    void getTotalM2PropriedadeTeste() throws PropriedadeNotFoundException {
+    void shouldReturnTotalM2Propriedade() throws PropriedadeNotFoundException {
         Assertions.assertEquals(16.19, this.propriedadeService.getTotalM2Propriedade(propriedadeDTO.getNome()));
     }
 
     @Test
-    void valorPropriedade() throws PropriedadeNotFoundException {
+    void shouldReturnValorPropriedade() throws PropriedadeNotFoundException {
         Assertions.assertEquals(64760.0, this.propriedadeService.getValorPropriedade(propriedadeDTO.getNome()));
     }
 
     @Test
-    void verifyIfPropriedadeExistsTest() throws PropriedadeNotFoundException {
+    void verifyIfPropriedadeExists() throws PropriedadeNotFoundException {
         Assertions.assertEquals("Casa do Gabriel", this.propriedadeService.verifyIfPropriedadeExists(propriedadeDTO.getNome()).getNome());
         Assertions.assertThrows(PropriedadeNotFoundException.class, ()-> this.propriedadeService.verifyIfPropriedadeExists("Mansão do Gabriel"));
         Assertions.assertThrows(PropriedadeNotFoundException.class, ()-> this.propriedadeService.verifyIfPropriedadeExists("Casa do Prefeito"));
@@ -64,12 +64,12 @@ public class PropriedadeServiceTest {
     }
 
     @Test
-    void getMaiorComodo() throws PropriedadeNotFoundException {
+    void shouldReturnMaiorComodo() throws PropriedadeNotFoundException {
         Assertions.assertEquals("Sala", this.propriedadeService.getMaiorComodo(propriedadeDTO.getNome()).getName());
     }
 
     @Test
-    void totalM2PorComodo() throws PropriedadeNotFoundException {
+    void shouldReturnTotalM2PorComodo() throws PropriedadeNotFoundException {
 
         List<M2PorComodoDTO> comodos = propriedadeService.getM2PorComodo(propriedadeDTO.getNome());
 
