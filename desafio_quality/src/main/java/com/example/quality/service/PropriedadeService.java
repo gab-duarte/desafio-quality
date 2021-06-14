@@ -1,6 +1,7 @@
 package com.example.quality.service;
 
 import com.example.quality.dto.ComodoDTO;
+import com.example.quality.dto.M2PorComodoDTO;
 import com.example.quality.dto.PropriedadeDTO;
 import com.example.quality.entity.Comodo;
 import com.example.quality.entity.Propriedade;
@@ -50,17 +51,14 @@ public class PropriedadeService {
         return ComodoMapper.comodoToComodoDTO(propriedade.maiorComodo());
     }
 
-    public List<Double> getM2PorComodo(String propriedadeNome) throws PropriedadeNotFoundException {
+    public List<M2PorComodoDTO> getM2PorComodo(String propriedadeNome) throws PropriedadeNotFoundException {
         Propriedade propriedade = verifyIfPropriedadeExists(propriedadeNome);
-        Map<String, Double> map = propriedade.metrosQuadradosDeCadaComodo();
-        List<Double> result = new ArrayList<>();
-
+        Map<String, Double> map =  propriedade.metrosQuadradosDeCadaComodo();
+        List<M2PorComodoDTO> comodos = new ArrayList<>();
         for(Map.Entry<String, Double> pair: map.entrySet()){
-            result.add(pair.getValue());
+            comodos.add(new M2PorComodoDTO(pair.getKey(), pair.getValue()));
         }
-
-        return result;
-
+        return comodos;
     }
 
     public boolean verifyIfBairroExists(String nomeBairro) throws BairroNotFoundException {

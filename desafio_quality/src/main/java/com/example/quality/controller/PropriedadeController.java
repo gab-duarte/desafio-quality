@@ -1,6 +1,7 @@
 package com.example.quality.controller;
 
 import com.example.quality.dto.ComodoDTO;
+import com.example.quality.dto.M2PorComodoDTO;
 import com.example.quality.dto.PropriedadeDTO;
 import com.example.quality.dto.ResponseDTO;
 import com.example.quality.exception.BairroNotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/propriedade")
@@ -52,8 +54,8 @@ public class PropriedadeController {
 
     @GetMapping(path = "/{propriedadeNome}/m2PorComodo")
     public ResponseEntity<ResponseDTO> m2PorComodo(@PathVariable String propriedadeNome) throws PropriedadeNotFoundException {
-        List<Double> m2PorComodo = propriedadeService.getM2PorComodo(propriedadeNome);
-        ResponseDTO responseDTO = new ResponseDTO(null, null, m2PorComodo);
+        List<M2PorComodoDTO> comodos = propriedadeService.getM2PorComodo(propriedadeNome);
+        ResponseDTO responseDTO = new ResponseDTO(null, null, comodos);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 

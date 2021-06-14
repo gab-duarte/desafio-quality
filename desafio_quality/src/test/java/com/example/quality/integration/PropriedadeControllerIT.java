@@ -2,6 +2,7 @@ package com.example.quality.integration;
 
 import com.example.quality.controller.PropriedadeController;
 import com.example.quality.dto.ComodoDTO;
+import com.example.quality.dto.M2PorComodoDTO;
 import com.example.quality.service.PropriedadeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -72,5 +76,24 @@ public class PropriedadeControllerIT {
                 .andExpect(jsonPath("$.width").value(12.5))
                 .andExpect(jsonPath("$.length").value(15.5));
 
+    }
+
+    @Test
+    public void shoudReturnM2PorComodo() throws Exception {
+        List<M2PorComodoDTO> comodos = new ArrayList<>();
+
+        comodos.add(new M2PorComodoDTO("Sala", 9.79));
+        comodos.add(new M2PorComodoDTO("Quarto", 6.40));
+
+        when(propriedadeServiceMock.getM2PorComodo("Mansao")).thenReturn(comodos);
+
+        this.mockMvc.perform(get("/propriedade/{propriedadeNome}/m2PorComodo", "Mansao"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.comodos[0].comodo").value("Sala"))
+                .andExpect(jsonPath("$.comodos[0].m2").value(9.79))
+                .andExpect(jsonPath("$.comodos[1].comodo").value("Quarto"))
+                .andExpect(jsonPath("$.comodos[1].m2").value(6.40));
     }
 }

@@ -1,10 +1,12 @@
 package com.example.quality.units;
 
 import com.example.quality.dto.ComodoDTO;
+import com.example.quality.dto.M2PorComodoDTO;
 import com.example.quality.dto.PropriedadeDTO;
 import com.example.quality.exception.BairroNotFoundException;
 import com.example.quality.exception.PropriedadeNotFoundException;
 import com.example.quality.service.PropriedadeService;
+import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,7 +70,14 @@ public class PropriedadeServiceTest {
 
     @Test
     void totalM2PorComodo() throws PropriedadeNotFoundException {
-        final Double[] m2PorComodoArray = new Double[] {9.79, 6.40};
-        Assertions.assertArrayEquals(m2PorComodoArray, this.propriedadeService.getM2PorComodo(propriedadeDTO.getNome()).toArray());
+
+        List<M2PorComodoDTO> comodos = propriedadeService.getM2PorComodo(propriedadeDTO.getNome());
+
+        org.assertj.core.api.Assertions.assertThat(comodos)
+                .extracting(
+                        M2PorComodoDTO::getComodo,
+                        M2PorComodoDTO::getM2
+                )
+                .contains(Tuple.tuple("Sala", 9.79), Tuple.tuple("Quarto", 6.40));
     }
 }

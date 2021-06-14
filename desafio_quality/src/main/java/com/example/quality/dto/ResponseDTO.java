@@ -9,12 +9,12 @@ public class ResponseDTO {
 
     private Double valorM2;
     private Double valorPropriedade;
-    private List<Double> m2PorComodo;
+    private List<M2PorComodoDTO> comodos;
 
-    public ResponseDTO(Double valorM2, Double valorPropriedade, List<Double> m2PorComodo) {
+    public ResponseDTO(Double valorM2, Double valorPropriedade, List<M2PorComodoDTO> comodos) {
         this.valorM2 = valorM2;
         this.valorPropriedade = valorPropriedade;
-        this.m2PorComodo = m2PorComodo;
+        this.comodos = comodos;
     }
 
     public Double getValorM2() {
@@ -33,11 +33,11 @@ public class ResponseDTO {
         this.valorPropriedade = valorPropriedade;
     }
 
-    public List<Double> getM2PorComodo() {
-        return m2PorComodo;
+    public List<M2PorComodoDTO> getComodos() {
+        return comodos;
     }
 
-    public void setM2PorComodo(List<Double> m2PorComodo) {
-        this.m2PorComodo = m2PorComodo;
+    public void setComodos(List<M2PorComodoDTO> comodos) {
+        this.comodos = comodos;
     }
 }
